@@ -7,6 +7,7 @@ import {
   LabelText,
   Button,
 } from './ContactForm.styled';
+import { nanoid } from 'nanoid';
 
 export function ContactForm({ onSubmitData }) {
   const [name, setName] = useState('');
@@ -23,6 +24,7 @@ export function ContactForm({ onSubmitData }) {
     const obj = {
       name,
       number,
+      id: nanoid(),
     };
     onSubmitData(obj);
     setName('');
