@@ -6,16 +6,19 @@ import { ContactForm } from './ContactForm/ContactForm';
 import { ContactList } from './ContactList/ContactList';
 import { Filter } from './Filter/Filter';
 import { useDispatch, useSelector } from 'react-redux';
-import { addContact, deleteContact } from 'redux/contactsSlice';
-
-// const LS_KEY = 'savedContacts';
+import { addContact, deleteContact, getContacts } from 'redux/contactsSlice';
+import { addFilter } from 'redux/filterSlice';
 
 export function App() {
   // const numberOfContacts = useSelector(state => state.contacts.)
-  const contacts = useSelector(state => state.contacts);
+  const contacts = useSelector(state => state.contacts.contacts.contacts);
+  const filter = useSelector(state => state.filters);
   const dispatch = useDispatch();
 
-  const [filter, setFilter] = useState('');
+  console.log('getContacts :>> ', getContacts);
+  console.log('contacts :>> ', contacts);
+
+  // const [filter, setFilter] = useState('');
   // const [contacts, setContacts] = useState(
   //   JSON.parse(window.localStorage.getItem(LS_KEY)) ?? [
   //     { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
@@ -31,6 +34,7 @@ export function App() {
 
   const handleSubmit = newContact => {
     dispatch(addContact(newContact));
+    console.log('newContact :>> ', newContact);
     // const dublicate = contacts.find(
     //   contact => contact.name.toLowerCase() === newContact.name.toLowerCase()
     // );
@@ -40,12 +44,12 @@ export function App() {
   };
 
   const changeFilter = e => {
-    setFilter(e.currentTarget.value);
+    dispatch(addFilter(e.currentTarget.value));
+    // setFilter(e.currentTarget.value);
   };
 
-  const dispatch = useDispatch();
-
-  const deleteContact = id => {
+  const delContact = id => {
+    console.log('id :>> ', id);
     dispatch(deleteContact(id));
 
     // setContacts(prevContacts =>
@@ -71,7 +75,7 @@ export function App() {
       <ContactList
         contacts={contacts}
         // contacts={makeListOfContacts()}
-        deleteContact={deleteContact}
+        deleteContact={delContact}
       />
       {/* ) : ( */}
       {/* <p> */}
