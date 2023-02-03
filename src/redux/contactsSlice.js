@@ -14,6 +14,8 @@ const contactsSlice = createSlice({
   initialState: contactsInitialState,
   reducers: {
     addContact(state, { payload }) {
+      const dublicate = state.contacts.find(contact => contact.name.toLowerCase() === payload.name.toLowerCase());
+      if (dublicate) return alert(`${payload.name} is already in contacts`);
       state.contacts.push(payload);
     },
     deleteContact(state, { payload }) {
