@@ -25,11 +25,12 @@ export function App() {
 
   const handleSubmit = newContact => {
     const dublicate = contacts.find(
-      contact => contact.name.toLowerCase() === newContact.name.toLowerCase());
+      contact => contact.name.toLowerCase() === newContact.name.toLowerCase()
+    );
     if (dublicate) return alert(`${newContact.name} is already in contacts`);
 
-    newContact.id = nanoid();
-    setContacts(prevContacts => [newContact, ...prevContacts]);
+    //   newContact.id = nanoid();
+    //   setContacts(prevContacts => [newContact, ...prevContacts]);
   };
 
   const changeFilter = e => {
@@ -37,7 +38,8 @@ export function App() {
   };
 
   const deleteContact = id => {
-    setContacts(prevContacts => prevContacts.filter(contact => contact.id !== id)
+    setContacts(prevContacts =>
+      prevContacts.filter(contact => contact.id !== id)
     );
   };
 
