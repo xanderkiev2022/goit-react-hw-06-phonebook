@@ -7,16 +7,15 @@ import { ContactList } from './ContactList/ContactList';
 import { Filter } from './Filter/Filter';
 import { useDispatch, useSelector } from 'react-redux';
 import { addContact, deleteContact, getContacts } from 'redux/contactsSlice';
-import { addFilter } from 'redux/filterSlice';
+import { addFilter, getFilter } from 'redux/filterSlice';
 
 export function App() {
   // const numberOfContacts = useSelector(state => state.contacts.)
-  const contacts = useSelector(state => state.contacts.contacts.contacts);
-  const filter = useSelector(state => state.filters);
+  const contacts = useSelector(getContacts);
+  const filter = useSelector(getFilter);
   const dispatch = useDispatch();
 
-  console.log('getContacts :>> ', getContacts);
-  console.log('contacts :>> ', contacts);
+  console.log('contacts.length :>> ', contacts.length);
 
   // const [filter, setFilter] = useState('');
   // const [contacts, setContacts] = useState(
@@ -33,8 +32,9 @@ export function App() {
   // }, [contacts]);
 
   const handleSubmit = newContact => {
-    dispatch(addContact(newContact));
     console.log('newContact :>> ', newContact);
+    dispatch(addContact(newContact));
+
     // const dublicate = contacts.find(
     //   contact => contact.name.toLowerCase() === newContact.name.toLowerCase()
     // );
@@ -45,11 +45,11 @@ export function App() {
 
   const changeFilter = e => {
     dispatch(addFilter(e.currentTarget.value));
+    console.log('e.currentTarget.value ', e.currentTarget.value);
     // setFilter(e.currentTarget.value);
   };
 
   const delContact = id => {
-    console.log('id :>> ', id);
     dispatch(deleteContact(id));
 
     // setContacts(prevContacts =>
@@ -58,10 +58,8 @@ export function App() {
   };
 
   const makeListOfContacts = () => {
-    // const normalizedFilter = filter.toLowerCase();
-    // return contacts.filter(contact =>
-    //   contact.name.toLowerCase().includes(normalizedFilter)
-    // );
+    const normalizedFilter = filter.toLowerCase();
+    return contacts.filter(contact => contact.name.toLowerCase().includes(normalizedFilter));
   };
 
   return (
@@ -71,18 +69,11 @@ export function App() {
 
       <TitleH2>Contacts</TitleH2>
       <Filter value={filter} changeFilter={changeFilter} />
-      {/* {contacts.length ? ( */}
-      <ContactList
-        contacts={contacts}
-        // contacts={makeListOfContacts()}
-        deleteContact={delContact}
-      />
-      {/* ) : ( */}
-      {/* <p> */}
-      {/* Oh, dear, you have no friends:( Get out of your chair and do something */}
-      {/* with your life ;) */}
-      {/* </p> */}
-      {/* )} */}
+      {contacts.length ? (
+        <ContactList contacts={makeListOfContacts()} deleteContact={delContact} />
+      ) : (
+        <p>Oh, dear, you have no friends:( Get out of your chair and do something with your life ;)</p>
+      )}
     </Container>
   );
 }
