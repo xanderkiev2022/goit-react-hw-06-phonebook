@@ -16,7 +16,7 @@ export function ContactList({ contacts, deleteContact }) {
   );
 }
 
-ContactList.propeTypes = {
+ContactList.propTypes = {
   contacts: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number.isRequired,
